@@ -1,6 +1,6 @@
 {
   "name": "console-list",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple library for rendering fixed-width lists from a JSON array",
   "author": "David Z. Williams <dave@flex.io>",
   "main": "dist/console-list.js",
