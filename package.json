@@ -29,7 +29,6 @@
   },
   "homepage": "https://github.com/dzwillia/console-list/",
   "dependencies": {
-    "lodash.assign": "^4.2.0",
     "lodash.foreach": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.isarray": "^4.0.0",

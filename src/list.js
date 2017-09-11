@@ -1,5 +1,4 @@
 // individual lodash includes
-import assign from 'lodash.assign'
 import map from 'lodash.map'
 import mapValues from 'lodash.mapvalues'
 import pickBy from 'lodash.pickby'
@@ -13,7 +12,6 @@ import isFunction from 'lodash.isfunction'
 
 // emulate lodash syntax
 var _ = {
-  assign,
   map,
   pickBy,
   forEach,
@@ -119,7 +117,7 @@ var renderList = function(arr, options, lengths) {
 }
 
 export default (items, options) => {
-  var options = _.assign({}, default_options, options)
+  var options = Object.assign({}, default_options, options)
 
   if (options.showHeader !== false)
     options.showHeader = true
