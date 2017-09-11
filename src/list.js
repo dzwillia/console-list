@@ -3,16 +3,21 @@ import map from 'lodash.map'
 import mapValues from 'lodash.mapvalues'
 import pickBy from 'lodash.pickby'
 import forEach from 'lodash.foreach'
-import isString from 'lodash.isstring'
-import isNumber from 'lodash.isnumber'
+
+function isString(v) {
+  const type = typeof v
+  return type == 'string' || (type == 'object' && v != null && !Array.isArray(v) && Object.prototype.toString.call(v) == '[object String]')
+}
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n)
+}
 
 // emulate lodash syntax
 var _ = {
   map,
   pickBy,
   forEach,
-  isString,
-  isNumber,
   mapValues
 }
 
@@ -26,7 +31,7 @@ var valuesToLengths = function(arr) {
     return _.mapValues(a, (val, key) => {
       if (val == null /* nullish */ || typeof val == 'function' || typeof val == 'object' || Array.isArray(val))
         return 0
-         else if (_.isString(val))
+         else if (isString(val))
         return val.length
          else
         return val.toString().length
@@ -67,7 +72,7 @@ var sanitizeItems = function(arr) {
 
   return _.map(arr, (a) => {
     return _.pickBy(a, function(val) {
-      return _.isString(val) || _.isNumber(val)
+      return isString(val) || isNumber(val)
     })
   })
 }
@@ -96,7 +101,7 @@ var renderList = function(arr, options, lengths) {
     _.forEach(a, (val, key) => {
       var len = lengths[key] + options.spacing
 
-      if (_.isString(val))
+      if (isString(val))
         retval += (val + ' '.repeat(len)).substr(0, len)
          else
         retval += (val.toString() + ' '.repeat(len)).substr(0, len)
@@ -114,7 +119,7 @@ export default (items, options) => {
   if (options.showHeader !== false)
     options.showHeader = true
 
-  if (!_.isNumber(options.spacing))
+  if (!isNumber(options.spacing))
     options.spacing = 1
 
   if (!Array.isArray(items) || items.length == 0)

@@ -796,22 +796,21 @@ var _lodash7 = __webpack_require__(78);
 
 var _lodash8 = _interopRequireDefault(_lodash7);
 
-var _lodash9 = __webpack_require__(79);
-
-var _lodash10 = _interopRequireDefault(_lodash9);
-
-var _lodash11 = __webpack_require__(80);
-
-var _lodash12 = _interopRequireDefault(_lodash11);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function isString(v) {
+  var type = typeof v === 'undefined' ? 'undefined' : (0, _typeof3.default)(v);
+  return type == 'string' || type == 'object' && v != null && !Array.isArray(v) && Object.prototype.toString.call(v) == '[object String]';
+}
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 var _ = {
   map: _lodash2.default,
   pickBy: _lodash6.default,
   forEach: _lodash8.default,
-  isString: _lodash10.default,
-  isNumber: _lodash12.default,
   mapValues: _lodash4.default
 };
 
@@ -823,7 +822,7 @@ var default_options = {
 var valuesToLengths = function valuesToLengths(arr) {
   return _.map(arr, function (a) {
     return _.mapValues(a, function (val, key) {
-      if (val == null || typeof val == 'function' || (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) == 'object' || Array.isArray(val)) return 0;else if (_.isString(val)) return val.length;else return val.toString().length;
+      if (val == null || typeof val == 'function' || (typeof val === 'undefined' ? 'undefined' : (0, _typeof3.default)(val)) == 'object' || Array.isArray(val)) return 0;else if (isString(val)) return val.length;else return val.toString().length;
     });
   });
 };
@@ -855,7 +854,7 @@ var sanitizeItems = function sanitizeItems(arr) {
 
   return _.map(arr, function (a) {
     return _.pickBy(a, function (val) {
-      return _.isString(val) || _.isNumber(val);
+      return isString(val) || isNumber(val);
     });
   });
 };
@@ -883,7 +882,7 @@ var renderList = function renderList(arr, options, lengths) {
     _.forEach(a, function (val, key) {
       var len = lengths[key] + options.spacing;
 
-      if (_.isString(val)) retval += (val + ' '.repeat(len)).substr(0, len);else retval += (val.toString() + ' '.repeat(len)).substr(0, len);
+      if (isString(val)) retval += (val + ' '.repeat(len)).substr(0, len);else retval += (val.toString() + ' '.repeat(len)).substr(0, len);
     });
 
     retval += '\n';
@@ -897,7 +896,7 @@ exports.default = function (items, options) {
 
   if (options.showHeader !== false) options.showHeader = true;
 
-  if (!_.isNumber(options.spacing)) options.spacing = 1;
+  if (!isNumber(options.spacing)) options.spacing = 1;
 
   if (!Array.isArray(items) || items.length == 0) return '';
 
@@ -9355,192 +9354,6 @@ function identity(value) {
 }
 
 module.exports = forEach;
-
-
-/***/ }),
-/* 79 */
-/***/ (function(module, exports) {
-
-/**
- * lodash 4.0.1 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** `Object#toString` result references. */
-var stringTag = '[object String]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @type Function
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is classified as a `String` primitive or object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isString('abc');
- * // => true
- *
- * _.isString(1);
- * // => false
- */
-function isString(value) {
-  return typeof value == 'string' ||
-    (!isArray(value) && isObjectLike(value) && objectToString.call(value) == stringTag);
-}
-
-module.exports = isString;
-
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports) {
-
-/**
- * lodash 3.0.3 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** `Object#toString` result references. */
-var numberTag = '[object Number]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is classified as a `Number` primitive or object.
- *
- * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are classified
- * as numbers, use the `_.isFinite` method.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isNumber(3);
- * // => true
- *
- * _.isNumber(Number.MIN_VALUE);
- * // => true
- *
- * _.isNumber(Infinity);
- * // => true
- *
- * _.isNumber('3');
- * // => false
- */
-function isNumber(value) {
-  return typeof value == 'number' ||
-    (isObjectLike(value) && objectToString.call(value) == numberTag);
-}
-
-module.exports = isNumber;
 
 
 /***/ })
