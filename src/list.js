@@ -3,22 +3,16 @@ import map from 'lodash.map'
 import mapValues from 'lodash.mapvalues'
 import pickBy from 'lodash.pickby'
 import forEach from 'lodash.foreach'
-import isNil from 'lodash.isnil'
-import isArray from 'lodash.isarray'
 import isString from 'lodash.isstring'
 import isNumber from 'lodash.isnumber'
-import isObject from 'lodash.isobject'
 
 // emulate lodash syntax
 var _ = {
   map,
   pickBy,
   forEach,
-  isNil,
-  isArray,
   isString,
   isNumber,
-  isObject,
   mapValues
 }
 
@@ -30,7 +24,7 @@ var default_options = {
 var valuesToLengths = function(arr) {
   return _.map(arr, (a) => {
     return _.mapValues(a, (val, key) => {
-      if (isNil(val) || typeof val == 'function' || _.isObject(val) || _.isArray(val))
+      if (val == null /* nullish */ || typeof val == 'function' || typeof val == 'object' || Array.isArray(val))
         return 0
          else if (_.isString(val))
         return val.length
@@ -123,7 +117,7 @@ export default (items, options) => {
   if (!_.isNumber(options.spacing))
     options.spacing = 1
 
-  if (!_.isArray(items) || items.length == 0)
+  if (!Array.isArray(items) || items.length == 0)
     return ''
 
   var items = sanitizeItems(items)
