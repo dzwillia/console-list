@@ -1,28 +1,32 @@
-import _ from 'lodash'
+import _ from './util'
 
-var default_options = {
+const DEFAULT_OPTIONS = {
   showHeader: true,
   spacing: 1
 }
 
 var valuesToLengths = function(arr) {
-  return _.map(arr, (a) => {
-    return _.mapValues(a, (val, key) => {
-      if (_.isNil(val) || _.isFunction(val) || _.isObject(val) || _.isArray(val))
-        return 0
+  return arr.map((a) => {
+    var b = {}
+    Object.keys(a).forEach(function(key) {
+      var val = a[key]
+      if (val == null /* nullish */ || typeof val == 'function' || typeof val == 'object' || Array.isArray(val))
+        b[key] = 0
          else if (_.isString(val))
-        return val.length
+        b[key] = val.length
          else
-        return val.toString().length
+        b[key] = val.toString().length
     })
+    return b
   })
 }
 
 var getColumnWidths = function(arr, options) {
   var retval = {}
 
-  _.forEach(arr, (a) => {
-    _.forEach(a, (len, key) => {
+  arr.forEach((a) => {
+    Object.keys(a).forEach(function(key) {
+      var len = a[key]
       if (retval[key])
         retval[key] = Math.max(len, retval[key])
          else
@@ -33,7 +37,8 @@ var getColumnWidths = function(arr, options) {
   // take into account header widths
   if (options.showHeader === true)
   {
-    _.forEach(retval, (len, key) => {
+    Object.keys(retval).forEach(function(key) {
+      var len = retval[key]
       retval[key] = Math.max(len, key.length)
     })
   }
@@ -44,35 +49,44 @@ var getColumnWidths = function(arr, options) {
 var sanitizeItems = function(arr) {
   var arr = [].concat(arr)
 
-  return _.map(arr, (a) => {
-    return _.pickBy(a, function(val) {
-      return _.isString(val) || _.isNumber(val)
+  return arr.map((a) => {
+    var retval = {}
+    Object.keys(a).forEach(function(key) {
+      var val = a[key]
+      if (_.isString(val) || _.isNumber(val))
+        retval[key] = val
     })
+    return retval
   })
 }
 
 var renderList = function(arr, options, lengths) {
   var retval = ''
 
+  // render header
   if (options.showHeader === true)
   {
-    _.forEach(lengths, (val, key) => {
-      var len = val + options.spacing
+    // render column names
+    Object.keys(lengths).forEach(function(key) {
+      var len = lengths[key] + options.spacing
       retval += (key + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
 
-    _.forEach(lengths, (val, key) => {
-      var len = val + options.spacing
-      retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len)
+    // render column underline
+    Object.keys(lengths).forEach(function(key) {
+      var len = lengths[key] + options.spacing
+      retval += ('-'.repeat(lengths[key]) + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
   }
 
-  _.forEach(arr, (a) => {
-    _.forEach(a, (val, key) => {
+  // render rows
+  arr.forEach((a) => {
+    Object.keys(a).forEach(function(key) {
+      var val = a[key]
       var len = lengths[key] + options.spacing
 
       if (_.isString(val))
@@ -88,7 +102,7 @@ var renderList = function(arr, options, lengths) {
 }
 
 export default (items, options) => {
-  var options = _.assign({}, default_options, options)
+  var options = Object.assign({}, DEFAULT_OPTIONS, options)
 
   if (options.showHeader !== false)
     options.showHeader = true
@@ -96,7 +110,7 @@ export default (items, options) => {
   if (!_.isNumber(options.spacing))
     options.spacing = 1
 
-  if (!_.isArray(items) || items.length == 0)
+  if (!Array.isArray(items) || items.length == 0)
     return ''
 
   var items = sanitizeItems(items)
