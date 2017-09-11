@@ -229,8 +229,8 @@ var _ = {
   mapValues: _lodash6.default
 };
 
-var default_cfg = {
-  show_header: true,
+var default_options = {
+  showHeader: true,
   spacing: 1
 };
 
@@ -242,7 +242,7 @@ var valuesToLengths = function valuesToLengths(arr) {
   });
 };
 
-var getColumnWidths = function getColumnWidths(arr, cfg) {
+var getColumnWidths = function getColumnWidths(arr, options) {
   var retval = {};
 
   _.forEach(arr, function (a) {
@@ -251,7 +251,7 @@ var getColumnWidths = function getColumnWidths(arr, cfg) {
     });
   });
 
-  if (cfg.show_header === true) {
+  if (options.showHeader === true) {
     _.forEach(retval, function (len, key) {
       retval[key] = Math.max(len, key.length);
     });
@@ -274,19 +274,19 @@ var sanitizeItems = function sanitizeItems(arr) {
   });
 };
 
-var renderList = function renderList(arr, cfg, lengths) {
+var renderList = function renderList(arr, options, lengths) {
   var retval = '';
 
-  if (cfg.show_header === true) {
+  if (options.showHeader === true) {
     _.forEach(lengths, function (val, key) {
-      var len = val + cfg.spacing;
+      var len = val + options.spacing;
       retval += (key + ' '.repeat(len)).substr(0, len);
     });
 
     retval += '\n';
 
     _.forEach(lengths, function (val, key) {
-      var len = val + cfg.spacing;
+      var len = val + options.spacing;
       retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len);
     });
 
@@ -295,7 +295,7 @@ var renderList = function renderList(arr, cfg, lengths) {
 
   _.forEach(arr, function (a) {
     _.forEach(a, function (val, key) {
-      var len = lengths[key] + cfg.spacing;
+      var len = lengths[key] + options.spacing;
 
       if (_.isString(val)) retval += (val + ' '.repeat(len)).substr(0, len);else retval += (val.toString() + ' '.repeat(len)).substr(0, len);
     });
@@ -306,18 +306,18 @@ var renderList = function renderList(arr, cfg, lengths) {
   return retval;
 };
 
-exports.default = function (items, cfg) {
-  var cfg = _.assign({}, default_cfg, cfg);
+exports.default = function (items, options) {
+  var options = _.assign({}, default_options, options);
 
-  if (cfg.show_header !== false) cfg.show_header = true;
+  if (options.showHeader !== false) options.showHeader = true;
 
-  if (!_.isNumber(cfg.spacing)) cfg.spacing = 1;
+  if (!_.isNumber(options.spacing)) options.spacing = 1;
 
   if (!_.isArray(items) || items.length == 0) return '';
 
   var items = sanitizeItems(items);
-  var lengths = getColumnWidths(valuesToLengths(items), cfg);
-  return renderList(items, cfg, lengths);
+  var lengths = getColumnWidths(valuesToLengths(items), options);
+  return renderList(items, options, lengths);
 };
 
 /***/ }),

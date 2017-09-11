@@ -26,8 +26,8 @@ var _ = {
   mapValues
 }
 
-var default_cfg = {
-  show_header: true,
+var default_options = {
+  showHeader: true,
   spacing: 1
 }
 
@@ -44,7 +44,7 @@ var valuesToLengths = function(arr) {
   })
 }
 
-var getColumnWidths = function(arr, cfg) {
+var getColumnWidths = function(arr, options) {
   var retval = {}
 
   _.forEach(arr, (a) => {
@@ -57,7 +57,7 @@ var getColumnWidths = function(arr, cfg) {
   })
 
   // take into account header widths
-  if (cfg.show_header === true)
+  if (options.showHeader === true)
   {
     _.forEach(retval, (len, key) => {
       retval[key] = Math.max(len, key.length)
@@ -82,20 +82,20 @@ var sanitizeItems = function(arr) {
   })
 }
 
-var renderList = function(arr, cfg, lengths) {
+var renderList = function(arr, options, lengths) {
   var retval = ''
 
-  if (cfg.show_header === true)
+  if (options.showHeader === true)
   {
     _.forEach(lengths, (val, key) => {
-      var len = val + cfg.spacing
+      var len = val + options.spacing
       retval += (key + ' '.repeat(len)).substr(0, len)
     })
 
     retval += '\n'
 
     _.forEach(lengths, (val, key) => {
-      var len = val + cfg.spacing
+      var len = val + options.spacing
       retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len)
     })
 
@@ -104,7 +104,7 @@ var renderList = function(arr, cfg, lengths) {
 
   _.forEach(arr, (a) => {
     _.forEach(a, (val, key) => {
-      var len = lengths[key] + cfg.spacing
+      var len = lengths[key] + options.spacing
 
       if (_.isString(val))
         retval += (val + ' '.repeat(len)).substr(0, len)
@@ -118,19 +118,19 @@ var renderList = function(arr, cfg, lengths) {
   return retval
 }
 
-export default (items, cfg) => {
-  var cfg = _.assign({}, default_cfg, cfg)
+export default (items, options) => {
+  var options = _.assign({}, default_options, options)
 
-  if (cfg.show_header !== false)
-    cfg.show_header = true
+  if (options.showHeader !== false)
+    options.showHeader = true
 
-  if (!_.isNumber(cfg.spacing))
-    cfg.spacing = 1
+  if (!_.isNumber(options.spacing))
+    options.spacing = 1
 
   if (!_.isArray(items) || items.length == 0)
     return ''
 
   var items = sanitizeItems(items)
-  var lengths = getColumnWidths(valuesToLengths(items), cfg)
-  return renderList(items, cfg, lengths)
+  var lengths = getColumnWidths(valuesToLengths(items), options)
+  return renderList(items, options, lengths)
 }
