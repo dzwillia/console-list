@@ -1,12 +1,10 @@
 // individual lodash includes
-import map from 'lodash.map'
 import mapValues from 'lodash.mapvalues'
 import pickBy from 'lodash.pickby'
 import forEach from 'lodash.foreach'
 
 // emulate lodash syntax
 var _ = {
-  map,
   pickBy,
   forEach,
   mapValues
@@ -27,7 +25,7 @@ var default_options = {
 }
 
 var valuesToLengths = function(arr) {
-  return _.map(arr, (a) => {
+  return arr.map((a) => {
     return _.mapValues(a, (val, key) => {
       if (val == null /* nullish */ || typeof val == 'function' || typeof val == 'object' || Array.isArray(val))
         return 0
@@ -70,7 +68,7 @@ var getColumnWidths = function(arr, options) {
 var sanitizeItems = function(arr) {
   var arr = [].concat(arr)
 
-  return _.map(arr, (a) => {
+  return arr.map((a) => {
     return _.pickBy(a, function(val) {
       return isString(val) || isNumber(val)
     })
