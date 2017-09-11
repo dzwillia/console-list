@@ -308,10 +308,6 @@ var _lodash17 = __webpack_require__(49);
 
 var _lodash18 = _interopRequireDefault(_lodash17);
 
-var _lodash19 = __webpack_require__(50);
-
-var _lodash20 = _interopRequireDefault(_lodash19);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _ = {
@@ -323,7 +319,6 @@ var _ = {
   isString: _lodash14.default,
   isNumber: _lodash16.default,
   isObject: _lodash18.default,
-  isFunction: _lodash20.default,
   mapValues: _lodash4.default
 };
 
@@ -335,7 +330,7 @@ var default_options = {
 var valuesToLengths = function valuesToLengths(arr) {
   return _.map(arr, function (a) {
     return _.mapValues(a, function (val, key) {
-      if ((0, _lodash10.default)(val) || _.isFunction(val) || _.isObject(val) || _.isArray(val)) return 0;else if (_.isString(val)) return val.length;else return val.toString().length;
+      if ((0, _lodash10.default)(val) || typeof val == 'function' || _.isObject(val) || _.isArray(val)) return 0;else if (_.isString(val)) return val.length;else return val.toString().length;
     });
   });
 };
@@ -8817,87 +8812,6 @@ function isObject(value) {
 }
 
 module.exports = isObject;
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports) {
-
-/**
- * lodash 3.0.8 (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright 2012-2016 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2016 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-
-/** `Object#toString` result references. */
-var funcTag = '[object Function]',
-    genTag = '[object GeneratorFunction]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8 which returns 'object' for typed array constructors, and
-  // PhantomJS 1.9 which returns 'function' for `NodeList` instances.
-  var tag = isObject(value) ? objectToString.call(value) : '';
-  return tag == funcTag || tag == genTag;
-}
-
-/**
- * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
- * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-module.exports = isFunction;
 
 
 /***/ })

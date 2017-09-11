@@ -8,7 +8,6 @@ import isArray from 'lodash.isarray'
 import isString from 'lodash.isstring'
 import isNumber from 'lodash.isnumber'
 import isObject from 'lodash.isobject'
-import isFunction from 'lodash.isfunction'
 
 // emulate lodash syntax
 var _ = {
@@ -20,7 +19,6 @@ var _ = {
   isString,
   isNumber,
   isObject,
-  isFunction,
   mapValues
 }
 
@@ -32,7 +30,7 @@ var default_options = {
 var valuesToLengths = function(arr) {
   return _.map(arr, (a) => {
     return _.mapValues(a, (val, key) => {
-      if (isNil(val) || _.isFunction(val) || _.isObject(val) || _.isArray(val))
+      if (isNil(val) || typeof val == 'function' || _.isObject(val) || _.isArray(val))
         return 0
          else if (_.isString(val))
         return val.length
