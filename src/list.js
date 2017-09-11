@@ -4,6 +4,14 @@ import mapValues from 'lodash.mapvalues'
 import pickBy from 'lodash.pickby'
 import forEach from 'lodash.foreach'
 
+// emulate lodash syntax
+var _ = {
+  map,
+  pickBy,
+  forEach,
+  mapValues
+}
+
 function isString(v) {
   const type = typeof v
   return type == 'string' || (type == 'object' && v != null && !Array.isArray(v) && Object.prototype.toString.call(v) == '[object String]')
@@ -11,14 +19,6 @@ function isString(v) {
 
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
-}
-
-// emulate lodash syntax
-var _ = {
-  map,
-  pickBy,
-  forEach,
-  mapValues
 }
 
 var default_options = {
