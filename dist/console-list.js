@@ -1,5 +1,5 @@
 /*!
- * console-list v1.0.0 (https://github.com/dzwillia/console-list)
+ * console-list v1.0.1 (https://github.com/dzwillia/console-list)
  * (c) 2017 David Z. Williams
  * Released under the MIT License.
  */
