@@ -1,0 +1,59 @@
+{
+  "name": "console-list",
+  "version": "1.0.0",
+  "description": "Simple library for rendering fixed-width lists from a JSON array",
+  "author": "David Z. Williams <dave@flex.io>",
+  "main": "dist/console-list.js",
+  "scripts": {
+    "build:debug": "cross-env NODE_ENV=debug webpack --config build/webpack.dist.js",
+    "build:release": "cross-env NODE_ENV=production webpack --config build/webpack.dist.js",
+    "build": "npm run build:debug && npm run build:release",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dzwillia/console-list.git"
+  },
+  "keywords": [
+    "console",
+    "list",
+    "log",
+    "logging",
+    "fixed-width",
+    "fixed",
+    "width"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dzwillia/console-list/issues"
+  },
+  "homepage": "https://github.com/dzwillia/console-list/",
+  "dependencies": {
+    "lodash.assign": "^4.2.0",
+    "lodash.foreach": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.isarray": "^4.0.0",
+    "lodash.isfunction": "^3.0.8",
+    "lodash.isnil": "^4.0.0",
+    "lodash.isnumber": "^3.0.3",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^4.0.1",
+    "lodash.map": "^4.6.0",
+    "lodash.mapvalues": "^4.6.0",
+    "lodash.pickby": "^4.6.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "deep-assign": "^2.0.0",
+    "webpack": "^3.5.5"
+  }
+}
