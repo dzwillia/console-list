@@ -1,11 +1,9 @@
 // individual lodash includes
 import pickBy from 'lodash.pickby'
-import forEach from 'lodash.foreach'
 
 // emulate lodash syntax
 var _ = {
-  pickBy,
-  forEach
+  pickBy
 }
 
 function isString(v) {
@@ -41,27 +39,24 @@ var valuesToLengths = function(arr) {
 var getColumnWidths = function(arr, options) {
   var retval = {}
 
-  _.forEach(arr, (a) => {
-    _.forEach(a, (len, key) => {
+  arr.forEach((a) => {
+    for (var key in a) {
+      var len = a[key]
       if (retval[key])
         retval[key] = Math.max(len, retval[key])
          else
         retval[key] = len
-    })
+    }
   })
 
   // take into account header widths
   if (options.showHeader === true)
   {
-    _.forEach(retval, (len, key) => {
+    for (var key in retval) {
+      var len = retval[key]
       retval[key] = Math.max(len, key.length)
-    })
+    }
   }
-
-  // add spacing to column width
-  _.forEach(retval, (len, key) => {
-    retval[key] = len
-  })
 
   return retval
 }
@@ -81,30 +76,31 @@ var renderList = function(arr, options, lengths) {
 
   if (options.showHeader === true)
   {
-    _.forEach(lengths, (val, key) => {
-      var len = val + options.spacing
+    for (var key in lengths) {
+      var len = lengths[key] + options.spacing
       retval += (key + ' '.repeat(len)).substr(0, len)
-    })
+    }
 
     retval += '\n'
 
-    _.forEach(lengths, (val, key) => {
-      var len = val + options.spacing
+    for (var key in lengths) {
+      var len = lengths[key] + options.spacing
       retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len)
-    })
+    }
 
     retval += '\n'
   }
 
-  _.forEach(arr, (a) => {
-    _.forEach(a, (val, key) => {
+  arr.forEach((a) => {
+    for (var key in a) {
+      var val = a[key]
       var len = lengths[key] + options.spacing
 
       if (isString(val))
         retval += (val + ' '.repeat(len)).substr(0, len)
          else
         retval += (val.toString() + ' '.repeat(len)).substr(0, len)
-    })
+    }
 
     retval += '\n'
   })
