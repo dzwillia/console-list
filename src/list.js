@@ -1,13 +1,11 @@
 // individual lodash includes
-import mapValues from 'lodash.mapvalues'
 import pickBy from 'lodash.pickby'
 import forEach from 'lodash.foreach'
 
 // emulate lodash syntax
 var _ = {
   pickBy,
-  forEach,
-  mapValues
+  forEach
 }
 
 function isString(v) {
@@ -26,14 +24,17 @@ var default_options = {
 
 var valuesToLengths = function(arr) {
   return arr.map((a) => {
-    return _.mapValues(a, (val, key) => {
+    var b = {}
+    for (var key in a) {
+      var val = a[key]
       if (val == null /* nullish */ || typeof val == 'function' || typeof val == 'object' || Array.isArray(val))
-        return 0
+        b[key] = 0
          else if (isString(val))
-        return val.length
+        b[key] = val.length
          else
-        return val.toString().length
-    })
+        b[key] = val.toString().length
+    }
+    return b
   })
 }
 
