@@ -16,7 +16,7 @@ var default_options = {
 var valuesToLengths = function(arr) {
   return arr.map((a) => {
     var b = {}
-    for (var key in a) {
+    Object.keys(a).forEach(function(key) {
       var val = a[key]
       if (val == null /* nullish */ || typeof val == 'function' || typeof val == 'object' || Array.isArray(val))
         b[key] = 0
@@ -24,7 +24,7 @@ var valuesToLengths = function(arr) {
         b[key] = val.length
          else
         b[key] = val.toString().length
-    }
+    })
     return b
   })
 }
@@ -33,22 +33,22 @@ var getColumnWidths = function(arr, options) {
   var retval = {}
 
   arr.forEach((a) => {
-    for (var key in a) {
+    Object.keys(a).forEach(function(key) {
       var len = a[key]
       if (retval[key])
         retval[key] = Math.max(len, retval[key])
          else
         retval[key] = len
-    }
+    })
   })
 
   // take into account header widths
   if (options.showHeader === true)
   {
-    for (var key in retval) {
+    Object.keys(retval).forEach(function(key) {
       var len = retval[key]
       retval[key] = Math.max(len, key.length)
-    }
+    })
   }
 
   return retval
@@ -59,11 +59,11 @@ var sanitizeItems = function(arr) {
 
   return arr.map((a) => {
     var retval = {}
-    for (var key in a) {
+    Object.keys(a).forEach(function(key) {
       var val = a[key]
       if (isString(val) || isNumber(val))
         retval[key] = val
-    }
+    })
     return retval
   })
 }
@@ -71,25 +71,29 @@ var sanitizeItems = function(arr) {
 var renderList = function(arr, options, lengths) {
   var retval = ''
 
+  // render header
   if (options.showHeader === true)
   {
-    for (var key in lengths) {
+    // render column names
+    Object.keys(lengths).forEach(function(key) {
       var len = lengths[key] + options.spacing
       retval += (key + ' '.repeat(len)).substr(0, len)
-    }
+    })
 
     retval += '\n'
 
-    for (var key in lengths) {
+    // render column underline
+    Object.keys(lengths).forEach(function(key) {
       var len = lengths[key] + options.spacing
-      retval += ('-'.repeat(val) + ' '.repeat(len)).substr(0, len)
-    }
+      retval += ('-'.repeat(lengths[key]) + ' '.repeat(len)).substr(0, len)
+    })
 
     retval += '\n'
   }
 
+  // render rows
   arr.forEach((a) => {
-    for (var key in a) {
+    Object.keys(a).forEach(function(key) {
       var val = a[key]
       var len = lengths[key] + options.spacing
 
@@ -97,7 +101,7 @@ var renderList = function(arr, options, lengths) {
         retval += (val + ' '.repeat(len)).substr(0, len)
          else
         retval += (val.toString() + ' '.repeat(len)).substr(0, len)
-    }
+    })
 
     retval += '\n'
   })
@@ -118,6 +122,7 @@ export default (items, options) => {
     return ''
 
   var items = sanitizeItems(items)
-  var lengths = getColumnWidths(valuesToLengths(items), options)
-  return renderList(items, options, lengths)
+  var val_lengths = valuesToLengths(items)
+  var col_widths = getColumnWidths(val_lengths, options)
+  return renderList(items, options, col_widths)
 }
