@@ -798,6 +798,13 @@ var _lodash8 = _interopRequireDefault(_lodash7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var _ = {
+  map: _lodash2.default,
+  pickBy: _lodash6.default,
+  forEach: _lodash8.default,
+  mapValues: _lodash4.default
+};
+
 function isString(v) {
   var type = typeof v === 'undefined' ? 'undefined' : (0, _typeof3.default)(v);
   return type == 'string' || type == 'object' && v != null && !Array.isArray(v) && Object.prototype.toString.call(v) == '[object String]';
@@ -806,13 +813,6 @@ function isString(v) {
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
-
-var _ = {
-  map: _lodash2.default,
-  pickBy: _lodash6.default,
-  forEach: _lodash8.default,
-  mapValues: _lodash4.default
-};
 
 var default_options = {
   showHeader: true,
