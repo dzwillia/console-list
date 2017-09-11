@@ -1,10 +1,3 @@
-// individual lodash includes
-import pickBy from 'lodash.pickby'
-
-// emulate lodash syntax
-var _ = {
-  pickBy
-}
 
 function isString(v) {
   const type = typeof v
@@ -65,9 +58,13 @@ var sanitizeItems = function(arr) {
   var arr = [].concat(arr)
 
   return arr.map((a) => {
-    return _.pickBy(a, function(val) {
-      return isString(val) || isNumber(val)
-    })
+    var retval = {}
+    for (var key in a) {
+      var val = a[key]
+      if (isString(val) || isNumber(val))
+        retval[key] = val
+    }
+    return retval
   })
 }
 

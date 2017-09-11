@@ -28,10 +28,7 @@
     "url": "https://github.com/dzwillia/console-list/issues"
   },
   "homepage": "https://github.com/dzwillia/console-list/",
-  "dependencies": {
-    "lodash.get": "^4.4.2",
-    "lodash.pickby": "^4.6.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
