@@ -9,9 +9,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["console-list"] = factory();
+		exports["ConsoleList"] = factory();
 	else
-		root["console-list"] = factory();
+		root["ConsoleList"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -718,7 +718,6 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ConsoleList = undefined;
 
 var _list = __webpack_require__(40);
 
@@ -726,11 +725,6 @@ var _list2 = _interopRequireDefault(_list);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (typeof window !== 'undefined') {
-  window.ConsoleList = _list2.default;
-}
-
-exports.ConsoleList = _list2.default;
 exports.default = _list2.default;
 
 /***/ }),
@@ -1717,5 +1711,5 @@ exports.default = {
 };
 
 /***/ })
-/******/ ]);
+/******/ ])["ConsoleList"];
 });

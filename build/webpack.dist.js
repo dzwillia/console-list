@@ -12,7 +12,8 @@ const config = merge(base, {
   output: {
     filename: options.isProduction ? 'console-list.min.js' : 'console-list.js',
     path: options.paths.output.main,
-    library: 'console-list',
+    library: 'ConsoleList',
+    libraryExport: 'ConsoleList',
     libraryTarget: 'umd'
   },
 
