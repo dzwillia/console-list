@@ -1,4 +1,5 @@
 import _ from './util'
+import assign from 'lodash.assign'
 
 const DEFAULT_OPTIONS = {
   showHeader: true,
@@ -6,58 +7,84 @@ const DEFAULT_OPTIONS = {
 }
 
 var valuesToLengths = function(arr) {
-  return arr.map((a) => {
+  var retval = []
+
+  for (var i = 0; i < arr.length; ++i) {
+    var a = arr[i]
     var b = {}
-    Object.keys(a).forEach(function(key) {
+
+    for (var key in a) {
+      if (!_.has(a, key))
+        continue
+
       var val = a[key]
-      if (val == null /* nullish */ || typeof val == 'function' || typeof val == 'object' || Array.isArray(val))
+      if (_.isNil(val) || _.isFunction(val) || _.isObject(val) || _.isArray(val))
         b[key] = 0
          else if (_.isString(val))
         b[key] = val.length
          else
         b[key] = val.toString().length
-    })
-    return b
-  })
+    }
+
+    retval.push(b)
+  }
+
+  return retval
 }
 
 var getColumnWidths = function(arr, options) {
   var retval = {}
 
-  arr.forEach((a) => {
-    Object.keys(a).forEach(function(key) {
+  for (var i = 0; i < arr.length; ++i) {
+    var a = arr[i]
+
+    for (var key in a) {
+      if (!_.has(a, key))
+        continue
+
       var len = a[key]
       if (retval[key])
         retval[key] = Math.max(len, retval[key])
          else
         retval[key] = len
-    })
-  })
+    }
+  }
 
   // take into account header widths
   if (options.showHeader === true)
   {
-    Object.keys(retval).forEach(function(key) {
+    for (var key in retval) {
+      if (!_.has(retval, key))
+        continue
+
       var len = retval[key]
       retval[key] = Math.max(len, key.length)
-    })
+    }
   }
 
   return retval
 }
 
 var sanitizeItems = function(arr) {
-  var arr = [].concat(arr)
+  var retval = []
 
-  return arr.map((a) => {
-    var retval = {}
-    Object.keys(a).forEach(function(key) {
+  for (var i = 0; i < arr.length; ++i) {
+    var a = arr[i]
+    var b = {}
+
+    for (var key in a) {
+      if (!_.has(a, key))
+        continue
+
       var val = a[key]
       if (_.isString(val) || _.isNumber(val))
-        retval[key] = val
-    })
-    return retval
-  })
+        b[key] = val
+    }
+
+    retval.push(b)
+  }
+
+  return retval
 }
 
 var renderList = function(arr, options, lengths) {
@@ -66,43 +93,52 @@ var renderList = function(arr, options, lengths) {
   // render header
   if (options.showHeader === true)
   {
+    var header = ''
+    var underline = ''
+
     // render column names
-    Object.keys(lengths).forEach(function(key) {
-      var len = lengths[key] + options.spacing
-      retval += (key + ' '.repeat(len)).substr(0, len)
-    })
+    for (var key in lengths) {
+      if (!_.has(lengths, key))
+        continue
 
+      var len = lengths[key] + options.spacing
+      header += (key + ' '.repeat(len)).substr(0, len)
+      underline += ('-'.repeat(lengths[key]) + ' '.repeat(len)).substr(0, len)
+    }
+
+    retval += header
     retval += '\n'
-
-    // render column underline
-    Object.keys(lengths).forEach(function(key) {
-      var len = lengths[key] + options.spacing
-      retval += ('-'.repeat(lengths[key]) + ' '.repeat(len)).substr(0, len)
-    })
-
+    retval += underline
     retval += '\n'
   }
 
   // render rows
-  arr.forEach((a) => {
-    Object.keys(a).forEach(function(key) {
+  for (var i = 0; i < arr.length; ++i) {
+    var a = arr[i]
+    var row = ''
+
+    for (var key in a) {
+      if (!_.has(a, key))
+        continue
+
       var val = a[key]
       var len = lengths[key] + options.spacing
 
       if (_.isString(val))
-        retval += (val + ' '.repeat(len)).substr(0, len)
+        row += (val + ' '.repeat(len)).substr(0, len)
          else
-        retval += (val.toString() + ' '.repeat(len)).substr(0, len)
-    })
+        row += (val.toString() + ' '.repeat(len)).substr(0, len)
+    }
 
+    retval += row
     retval += '\n'
-  })
+  }
 
   return retval
 }
 
 export default (items, options) => {
-  var options = Object.assign({}, DEFAULT_OPTIONS, options)
+  var options = assign({}, DEFAULT_OPTIONS, options)
 
   if (options.showHeader !== false)
     options.showHeader = true
