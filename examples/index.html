@@ -1,0 +1,152 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Console List Test</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tachyons/4.8.1/tachyons.min.css" integrity="sha256-i0Y6JXo6ZVDJM7TUXTNTB2KKeO4TFQOfMTGgm9mW0II=" crossorigin="anonymous" />
+
+  <style>
+    html, body {
+      font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 100%;
+    }
+
+    pre {
+      font-family: Consolas, monaco, monospace;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    a,
+    a:visited,
+    a:hover,
+    a:active {
+      color: #357edd;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .flex-fill {
+      flex: 1 1;
+      min-width: 0; /* 1 */
+      min-height: 0; /* 1 */
+    }
+
+    .darken-10:hover,
+    .darken-10:focus {
+      box-shadow: inset 9999px 9999px rgba(0,0,0,0.10)
+    }
+
+    .darken-10:active {
+      box-shadow: inset 9999px 9999px rgba(0,0,0,0.20)
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="pa3 center" style="max-width: 1152px;">
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="../dist/console-list.min.js"></script>
+  <script>
+    var $app = $('#app')
+
+    var arr = [{
+      "id": 1,
+      "first_name": "Ad",
+      "last_name": "Netting",
+      "email": "anetting0@yahoo.com",
+      "gender": "Male",
+      "ip_address": "229.50.168.220"
+    }, {
+      "id": 2,
+      "first_name": "Sophi",
+      "last_name": "Backen",
+      "email": "sbacken1@hibu.com",
+      "gender": "Female",
+      "ip_address": "234.141.198.182"
+    }, {
+      "id": 3,
+      "first_name": "Guntar",
+      "last_name": "Ferbrache",
+      "email": "gferbrache2@purevolume.com",
+      "gender": "Male",
+      "ip_address": "222.188.195.239"
+    }, {
+      "id": 4,
+      "first_name": "Lily",
+      "last_name": "Nussey",
+      "email": "lnussey3@cloudflare.com",
+      "gender": "Female",
+      "ip_address": "182.73.46.86"
+    }, {
+      "id": 5,
+      "first_name": "Alaster",
+      "last_name": "Dowsett",
+      "email": "adowsett4@buzzfeed.com",
+      "gender": "Male",
+      "ip_address": "134.8.152.158"
+    }, {
+      "id": 6,
+      "first_name": "Flo",
+      "last_name": "Osanne",
+      "email": "fosanne5@rakuten.co.jp",
+      "gender": "Female",
+      "ip_address": "235.70.42.135"
+    }, {
+      "id": 7,
+      "first_name": "Mechelle",
+      "last_name": "Weinberg",
+      "email": "mweinberg6@mayoclinic.com",
+      "gender": "Female",
+      "ip_address": "235.116.146.117"
+    }, {
+      "id": 8,
+      "first_name": "Verena",
+      "last_name": "Sporle",
+      "email": "vsporle7@pbs.org",
+      "gender": "Female",
+      "ip_address": "106.98.59.236"
+    }, {
+      "id": 9,
+      "first_name": "Harold",
+      "last_name": "Rubinek",
+      "email": "hrubinek8@odnoklassniki.ru",
+      "gender": "Male",
+      "ip_address": "253.204.255.147"
+    }, {
+      "id": 10,
+      "first_name": "Toni",
+      "last_name": "Mayor",
+      "email": "tmayor9@dropbox.com",
+      "gender": "Female",
+      "ip_address": "55.38.196.54"
+    }]
+
+    var echoHeader = function(str) {
+      $('#app').append('<h4>'+str+'</h4>')
+    }
+
+    var echoList = function(arr, options) {
+      $('#app').append('<pre>'+ConsoleList(arr, options)+'</pre>')
+    }
+
+    echoHeader('Default')
+    echoList(arr)
+    echoHeader('No header')
+    echoList(arr, { showHeader: false })
+    echoHeader('Wider spacing (4 spaces)')
+    echoList(arr, { spacing: 4 })
+    echoHeader('No header & wider spacing (4 spaces)')
+    echoList(arr, { showHeader: false, spacing: 4 })
+
+  </script>
+</body>
+</html>
