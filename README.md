@@ -12,7 +12,10 @@ npm install console-list
 ```
 
 ## License
+console-list is open source and released under the [MIT License](LICENSE).
 
-This SDK is distributed under the
-[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0),
-see LICENSE for more information.
+Copyright (c) 2017 [David Z Williams](https://twitter.com/padredaveo).
+
+> *PS: I would love to know if you're using vue-simple-spinner. Tweet to me at [@padredaveo](https://twitter.com/padredaveo)*.
+
+
